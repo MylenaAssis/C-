@@ -47,11 +47,14 @@ void ExibirOpcoesDoMenu()
         case 3: 
             AvaliarBanda();
             break;
-        case 4: Console.WriteLine("Você escolheu a opcao " + opcaoEscolhidaNumerica);
+        case 4: 
+            ExibirMediaBanda();
             break;
-        case -1: Console.WriteLine("Tchau :)");
+        case -1: 
+            Console.WriteLine("Tchau :)");
             break;
-        default: Console.WriteLine("Comando inválido.");
+        default: 
+            Console.WriteLine("Comando inválido.");
             break;
     }
 }
@@ -87,10 +90,7 @@ void MostrarBandasRegistradas()
         Console.WriteLine($"Banda: {banda}");
     }
 
-    Console.WriteLine("\nDigite qualquer tecla para retornar ao menu principal.");
-    Console.ReadKey(); //lendo qualquer tecla
-    Console.Clear();
-    ExibirOpcoesDoMenu();
+    RetornarAoMenu();
 }
 
 void AvaliarBanda()
@@ -116,18 +116,42 @@ void AvaliarBanda()
     } else
     {
         Console.WriteLine($"A banda {nomeDaBanda} não foi encontrada!");
-        Console.WriteLine("Digite uma tecla para sair");
-        Console.ReadKey();
-        Console.Clear();
-        ExibirOpcoesDoMenu();
+        RetornarAoMenu();
     }
 }
 
-void ExibirTituloDaOpcao (string tituloDaOpcao)
+void ExibirMediaBanda()
+{
+    Console.Clear();
+    ExibirTituloDaOpcao("Exibir média de avaliações da banda");
+    Console.Write("Digite o nome da banda que deseja verificar: ");
+    string nomeDaBanda = Console.ReadLine()!;
+    if (bandasRegistradas.ContainsKey (nomeDaBanda))
+    {
+        List<int> notasDaBanda = bandasRegistradas[nomeDaBanda]; //cria lista de inteiros para receber os valores de notas cadastrados no dicionario
+        Console.WriteLine($"\nA média de notas da banda {nomeDaBanda} é {notasDaBanda.Average()}.");
+        RetornarAoMenu();
+    }
+    else
+    {
+        Console.WriteLine($"A banda {nomeDaBanda} não foi encontrada!");
+        RetornarAoMenu();
+    }
+}
+
+void ExibirTituloDaOpcao(string tituloDaOpcao)
 {
     int caracteresTituloDaOpcao = tituloDaOpcao.Length;
     string asteriscos = string.Empty.PadLeft(caracteresTituloDaOpcao, '*'); //asteriscos recebeu uma string vazia com a funcao PadLeft que adiciona caracteres a esquerda com a estrutura (quantidade de vezes, 'caractere')
     Console.WriteLine(asteriscos);
     Console.WriteLine(tituloDaOpcao);
     Console.WriteLine(asteriscos + "\n");
+}
+
+void RetornarAoMenu()
+{
+    Console.WriteLine("Digite uma tecla para sair");
+    Console.ReadKey();
+    Console.Clear();
+    ExibirOpcoesDoMenu();
 }
