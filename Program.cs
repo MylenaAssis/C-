@@ -1,7 +1,11 @@
 ﻿//variaveis declaradas em camelCase
 string mensagemBoasVindas = "Seja bem vindo ao ScreenSound";
 
-List<string> listaDasBandas = new List<string> { "U2", "Beatles", "Calipso"}; //criando lista de strings 
+//List<string> listaDasBandas = new List<string> { "U2", "Beatles", "Calipso"}; //criando lista de strings 
+//Para poder cadastrar as notas das bandas, sem definir a quantidade de avaliacoes que cada banda vai receber, é preciso usar o dicionario e refatorar o codigo
+Dictionary<string, List<int>> bandasRegistradas = new Dictionary<string, List<int>>(); //criando um dicionario vazio
+bandasRegistradas.Add("u2", new List<int> { 10, 8, 6}); //inserindo banda para teste no dicionario
+bandasRegistradas.Add("Beatles", new List<int>());
 
 //palavra reservada void para indicar funcao. Funcoes escritas em PascalCase
 void ExibirLogoProjeto()
@@ -55,10 +59,10 @@ ExibirOpcoesDoMenu();
 void RegistrarBanda()
 {
     Console.Clear();
-    Console.WriteLine("Registro de Bandas\n");
+    ExibirTituloDaOpcao("Registro de Bandas");
     Console.Write("Digite o nome da banda: ");
     string nomeDaBanda = Console.ReadLine()!;
-    listaDasBandas.Add(nomeDaBanda); //inserindo a banda na lista
+    bandasRegistradas.Add(nomeDaBanda, new List<int>()); //adicionando banda ao dicionario e lista vazia de notas
     Console.WriteLine($"Você registrou a banda {nomeDaBanda} com sucesso!");
     Thread.Sleep(2000); //tempo de espera em milissegundos p retornar ao menu
     Console.Clear();
@@ -69,14 +73,14 @@ void RegistrarBanda()
 void MostrarBandasRegistradas()
 {
     Console.Clear();
-    Console.WriteLine("Mostrar bandas registradas\n");
+    ExibirTituloDaOpcao("Mostrar Bandas Registradas");
 
     //for (int i = 0; i < listaDasBandas.Count; i++) //percorrendo itens da lista
     //{
     //    Console.WriteLine($"Banda: {listaDasBandas[i]}");
     //}
     //outra opcao:
-    foreach (string banda in listaDasBandas)
+    foreach (string banda in bandasRegistradas.Keys) //para cada elemento chave(banda) do dicionario
     {
         Console.WriteLine($"Banda: {banda}");
     }
@@ -85,4 +89,13 @@ void MostrarBandasRegistradas()
     Console.ReadKey(); //lendo qualquer tecla
     Console.Clear();
     ExibirOpcoesDoMenu();
+}
+
+void ExibirTituloDaOpcao (string tituloDaOpcao)
+{
+    int caracteresTituloDaOpcao = tituloDaOpcao.Length;
+    string asteriscos = string.Empty.PadLeft(caracteresTituloDaOpcao, '*'); //asteriscos recebeu uma string vazia com a funcao PadLeft que adiciona caracteres a esquerda com a estrutura (quantidade de vezes, 'caractere')
+    Console.WriteLine(asteriscos);
+    Console.WriteLine(tituloDaOpcao);
+    Console.WriteLine(asteriscos + "\n");
 }
